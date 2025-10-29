@@ -11,7 +11,9 @@ class GUI:
         # initialising main window
         self.root = root
         self.root.title("Office Object Detection") # title
-        self.root.geometry("1000x700+400+150") # set size and location
+        self.window_width = 1000
+        self.window_height = 700
+        self.root.geometry(f"{self.window_width}x{self.window_height}+400+150") # set size and location
         self.detector = Detector()
         self.predict = False
 
@@ -135,7 +137,7 @@ class GUI:
         self.image_label.config(image='') # clear image
         self.image_label.imgtk = None # remove reference to the mage object]
         self.resize_display(600, 600) # return to default display size
-        self.centre_window(900, 700) # re-centre the window
+        self.centre_window(self.window_width, self.window_height) # re-centre the window
         self.start_video_stream()  # restarts lives detection
 
     # method to capture a single frame from the webcam feed and display it
