@@ -62,3 +62,7 @@ class GUIButton:
     # void function
     def void_function(self):
         pass
+
+    #alows the custom GUIButton to be packed into the layout
+    def pack(self, **kwargs):
+        self.button.pack(**kwargs)
