@@ -11,7 +11,7 @@ class GUI:
         # initialising main window
         self.root = root
         self.root.title("Office Object Detection") # title
-        self.root.geometry("900x700+700+300") # set size and location
+        self.root.geometry("900x700+400+150") # set size and location
         self.detector = Detector()
         self.predict = False
 
@@ -32,7 +32,7 @@ class GUI:
 
         #header label
         header = Label(right_frame, text="Office Object Detection", fg="black", font=("Helvetica", 15))
-        header.pack(pady=(30, 20))
+        header.pack(pady=(10, 10))
 
         # upload image button
         upload_img_btn = GUIButton(right_frame, text="Upload Image", command=self.upload_image, font=("Helvetica", 12))
