@@ -2,7 +2,7 @@ from ultralytics import YOLO
 
 class Detector():
     def __init__(self):
-        self.model = YOLO("D:/Documents/Projects/Python/AIR/course-work-1/Office_Object_detection/training/runs/detect/train/weights/best.pt")
+        self.model = YOLO("./training/runs/detect/train/weights/best.pt")
     
     # makes object prediction.
     def predict(self, frame):
