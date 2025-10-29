@@ -93,7 +93,6 @@ class GUI:
         imgtk = self.predict_frame(frame, True)
         self.image_label.imgtk = imgtk  # this prevents garbage collection
         self.image_label.configure(image=imgtk) # displays image in label
-        self.resize_display(imgtk.width(), imgtk.height()) # rezises and centres window
 
     #method to start and continue webcam feed
     def start_video_stream(self):
@@ -135,8 +134,7 @@ class GUI:
     def go_back(self):
         self.stop_video_stream() # stops any active video stream
         self.image_label.config(image='') # clear image
-        self.image_label.imgtk = None # remove reference to the mage object]
-        self.resize_display(600, 600) # return to default display size
+        self.image_label.imgtk = None # remove reference to the mage object
         self.centre_window(self.window_width, self.window_height) # re-centre the window
         self.start_video_stream()  # restarts lives detection
 
@@ -149,16 +147,6 @@ class GUI:
                 imgtk = self.predict_frame(frame, False) # make prediction on frame
                 self.image_label.imgtk = imgtk
                 self.image_label.configure(image=imgtk) # displays image
-                self.resize_display(imgtk.width(), imgtk.height())
-
-    #method to resize the main window to accomodate for different image size
-    def resize_display(self, width, height):
-        self.left_frame.pack_propagate(False) # to prevent the frame from shrinking to fit the image
-        self.left_frame.config(width=width, height=height)
-        self.image_label.config(width=width, height=height)
-        total_width = width + 300 # to add the width of the right section
-        total_height = max(height, 600)
-        self.centre_window(total_width, total_height) # re-centre the window after resizing
 
     # method to centre the main window
     def centre_window(self, width, height):
