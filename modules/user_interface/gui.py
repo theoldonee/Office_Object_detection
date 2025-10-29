@@ -90,7 +90,7 @@ class GUI:
     def display_image(self, path):
         self.stop_video_stream()  # to ensure the live stream is stopped
         frame = Image.open(path) # loads image from file
-        imgtk = self.predict_frame(frame, True)
+        imgtk = self.predict_frame(frame) # make prediction on frame
         self.image_label.imgtk = imgtk  # this prevents garbage collection
         self.image_label.configure(image=imgtk) # displays image in label
 
@@ -116,7 +116,7 @@ class GUI:
             if ret:
                 # checks if prediction should be made
                 if self.predict:
-                    imgtk = self.predict_frame(frame, True)
+                    imgtk = self.predict_frame(frame)
                 else:
                     rgb_frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB) # converts BGR to RGB
                     img = Image.fromarray(rgb_frame).resize((625, 625)) # comverts to PIL image and resize
@@ -144,7 +144,7 @@ class GUI:
             ret, frame = self.cap.read() # captures a single frame from the webcam livestream
             if ret:
                 self.stop_video_stream() # stops live feed to freeze the frame
-                imgtk = self.predict_frame(frame, False) # make prediction on frame
+                imgtk = self.predict_frame(frame) # make prediction on frame
                 self.image_label.imgtk = imgtk
                 self.image_label.configure(image=imgtk) # displays image
 
@@ -158,16 +158,11 @@ class GUI:
         self.root.geometry(f"{width}x{height}+{x}+{y}") #appliesnew size and position
 
     # returns image with prediction
-    def predict_frame(self, frame, resize):
+    def predict_frame(self, frame):
         img = self.detector.predict(frame) # make prediction on frame
         img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB) # convert image from BGR to RGB
-
-        # checks if image should be resized
-        if resize:
-            img = Image.fromarray(img).resize((625, 625))
-        else:
-            img = Image.fromarray(img)
-
+        img = Image.fromarray(img).resize((625, 625)) # resize image to window size
+      
         # converts image to ImageTK object
         imgtk = ImageTk.PhotoImage(img)
         return imgtk
