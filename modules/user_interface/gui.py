@@ -3,6 +3,7 @@ from tkinter import filedialog, Label
 from PIL import Image, ImageTk
 import cv2
 from .button import GUIButton
+from ..object_detection.detector import Detector
 
 class GUI:
     def __init__(self, root):
@@ -10,6 +11,9 @@ class GUI:
         self.root = root
         self.root.title("Office Object Detection") # title
         self.root.geometry("900x700+700+300") # set size and location
+        self.detector = Detector()
+        self.predict = False
+
 
         # setting up the layout
         main_frame = tk.Frame(self.root)
@@ -158,3 +162,16 @@ class GUI:
         x = (screen_width // 2) - (width // 2) # for the horizontal centre
         y = (screen_height // 2) - (height // 2) # for the vertical centre
         self.root.geometry(f"{width}x{height}+{x}+{y}") #appliesnew size and position
+
+    def predict_frame(self, frame, resize):
+        img = self.detector.predict(frame)
+        img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
+        if resize:
+            img = Image.fromarray(img).resize((625, 625))
+        else:
+            img = Image.fromarray(img)
+        imgtk = ImageTk.PhotoImage(img)
+        return imgtk
+
+    def start_prediction(self):
+        self.predict = True
