@@ -117,6 +117,7 @@ class GUI:
     def update_video(self):
         if self.running and self.cap:
             ret, frame = self.cap.read() # reads frame from the webcam
+            frame = cv2.flip(frame, 1)
             if ret:
                 # checks if prediction should be made
                 if self.predict:
@@ -147,6 +148,7 @@ class GUI:
         self.reset_live_btn() # reset live_btn
         if self.cap and self.running:
             ret, frame = self.cap.read() # captures a single frame from the webcam livestream
+            frame = cv2.flip(frame, 1)
             if ret:
                 self.stop_video_stream() # stops live feed to freeze the frame
                 imgtk = self.predict_frame(frame, True) # make prediction on frame
