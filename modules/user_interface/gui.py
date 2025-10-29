@@ -1,154 +1,160 @@
 import tkinter as tk
-from tkinter import filedialog, Label, Button
-from turtle import bgcolor
+from tkinter import filedialog, Label
 from PIL import Image, ImageTk
 import cv2
 from .button import GUIButton
-from ..object_detection.detector import Detector
-
 
 class GUI:
     def __init__(self, root):
-
         # initialising main window
         self.root = root
-        self.root.title("Office Object Detection")  # title
-        self.root.geometry("500x300+700+300")  # set size and location
-        self.detector = Detector()
+        self.root.title("Office Object Detection") # title
+        self.root.geometry("900x700+700+300") # set size and location
 
-        # header label
-        header = Label(root, text="Welcome to the Office Object Detection Model", fg="black", font=("Helvetica", 15))
+        # setting up the layout
+        main_frame = tk.Frame(self.root)
+        main_frame.pack(fill="both", expand=True)
 
-        # Buttons for the different commands
-        upload_img_btn = GUIButton(root, text="Upload Image", command=self.upload_image, font=("Helvetica", 15), x=50,
-                                   y=150)
+        # left section: for image/webcam display
+        self.left_frame = tk.Frame(main_frame, width=625, height=625)
+        self.left_frame.pack(side="left", anchor="n")
+        self.image_label = tk.Label(self.left_frame)
+        self.image_label.pack()
+        self.original_img = None
+
+        # right section: button panel
+        right_frame = tk.Frame(main_frame, width=300)
+        right_frame.pack(side="right", fill="y")
+
+        #header label
+        header = Label(right_frame, text="Office Object Detection", fg="black", font=("Helvetica", 15))
+        header.pack(pady=(30, 20))
+
+        # upload image button
+        upload_img_btn = GUIButton(right_frame, text="Upload Image", command=self.upload_image, font=("Helvetica", 12))
+        upload_img_btn.pack(pady=10)
         upload_img_btn.config_colours(activeBG="green4", activeFG="white", bgcolour="SpringGreen3",
                                       fgcolour="white", hoverBG="green3", hoverFG="white")
 
-        live_stream_btn = GUIButton(root, text="Live Detection", command=self.start_video_stream,
-                                    font=("Helvetica", 15), x=320, y=150)
-        live_stream_btn.config_colours(activeBG="green4", activeFG="white", bgcolour="SpringGreen3",
-                                       fgcolour="white", hoverBG="green3", hoverFG="white")
+        #capture frame button
+        capture_btn = GUIButton(right_frame, text="Capture", command=self.capture_frame, font=("Helvetica", 12))
+        capture_btn.pack(pady=10)
+        capture_btn.config_colours(activeBG="dodgerblue4", activeFG="white",  bgcolour="dodgerblue3", fgcolour="white", hoverBG="dodgerblue2", hoverFG="white")
 
-        quit_btn = GUIButton(root, text="Quit", command=self.quit_app, font=("Helvetica", 15), x=200, y=200)
+        #start live detection button
+        live_stream_btn = GUIButton(right_frame, text="Live Detection", command=self.start_video_stream, font=("Helvetica", 12))
+        live_stream_btn.pack(pady=10)
+        live_stream_btn.config_colours(activeBG="green4", activeFG="white",
+                                       bgcolour="SpringGreen3", fgcolour="white", hoverBG="green3", hoverFG="white")
 
+        # back button (returns to default livestream)
+        back_btn = GUIButton(right_frame, text="Back",command=self.go_back,font =("Helvetica", 12))
+        back_btn.pack(pady=10)
+        back_btn.config_colours(activeBG="gray30", activeFG="white", bgcolour="gray60",
+                                fgcolour="white",hoverBG="gray40", hoverFG="white")
+
+        #quit button (ends program)
+        quit_btn = GUIButton(right_frame, text="Quit",command=self.quit_app,  font=("Helvetica", 12))
+        quit_btn.pack(pady=10)
         quit_btn.config_colours(activeBG="firebrick4", activeFG="white", bgcolour="firebrick3",
                                 fgcolour="white", hoverBG="red", hoverFG="white")
 
         quit_btn.set_dimensions(height=2, width=8)
 
-        back_btn = GUIButton(root, text="Back", command=self.go_back,
-                             font=("Helvetica", 15), x=200, y=100)
-
-        back_btn.config_colours(activeBG="gray30", activeFG="white", bgcolour="gray60",
-                                fgcolour="white", hoverBG="gray40", hoverFG="white")
-
-        back_btn.set_dimensions(height=2, width=8)
-
-        self.image_label = tk.Label(self.root)
-        self.image_label.place(x=50, y=80)
-
-        header.place(x=50, y=50)
-
-        # cv2 video capture state
+        # cv2 webcam state
         self.cap = None
         self.running = False
 
+        # starts live detection by default
+        self.start_video_stream()
+
+    # method to upload an image file
     def upload_image(self):
+        # Stop webcam if it is running
+        self.stop_video_stream()
         # open file dialogue
         filename = filedialog.askopenfilename(filetypes=[("Image Files", "*.png *.jpg *.jpeg")])
         if filename:
-            self.display_image(filename)  # display selected image
+            self.display_image(filename) # display selected image
 
-    #method to display uploaded image
+    #method to display the uploaded image file on the left section
     def display_image(self, path):
-        # create new window to show uploaded image
-        self.image_window = tk.Toplevel(self.root)
-        self.image_window.title("Uploaded Image")
-        self.image_window.geometry("800x600")
-        self.image_window.resizable(True, True)
+        self.stop_video_stream()  # to ensure the live stream is stopped
+        self.original_img = Image.open(path) # loads image from file
+        imgtk = ImageTk.PhotoImage(self.original_img) # converts to Tkinter-compatible format
+        self.image_label.imgtk = imgtk  # this prevents garbage collection
+        self.image_label.configure(image=imgtk) # displays image in label
+        self.resize_display(imgtk.width(), imgtk.height()) # rezises and centres window
 
-        # loads original image
-        self.original_img = Image.open(path)
-
-        # frame for the image
-        img_frame = tk.Frame(self.image_window)
-        img_frame.pack(expand=True, fill="both")
-        # add label inside the frame to dusplay the image
-        self.uploaded_image_label = tk.Label(img_frame)
-        self.uploaded_image_label.pack(expand=True, fill="both")
-
-        # back button frame at bottom of the window
-        btn_frame = tk.Frame(self.image_window)
-        btn_frame.pack(fill="x")
-
-        back_btn = tk.Button(btn_frame, text="Back", font=("Helvetica", 12), command=self.image_window.destroy)
-        back_btn.pack(pady=5)
-
-        #resizes the image when the window size change
-        def resize_image(event):
-            if event.width > 50 and event.height > 50:  # ignore tiny resizes
-                img_w, img_h = self.original_img.size
-                ratio = min(event.width / img_w, event.height / img_h)
-                new_size = (int(img_w * ratio), int(img_h * ratio))
-
-                resized = self.original_img.resize(new_size, Image.LANCZOS)
-
-                # img = self.detector.predict(resized)
-                # img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
-                # img = Image.fromarray(img)
-                # imgtk = ImageTk.PhotoImage(img)
-
-                imgtk = ImageTk.PhotoImage(resized)
-                self.uploaded_image_label.imgtk = imgtk
-                self.uploaded_image_label.configure(image=imgtk)
-        self.image_window.bind("<Configure>", resize_image)
-
+    #method to start and continue webcam feed
     def start_video_stream(self):
         if not self.running:
-            # create a new window for the webcam feed
-            self.video_window = tk.Toplevel(self.root)
-            self.video_window.title("Live Camera Feed")
-            self.video_window.geometry("600x600+750+300")
+            self.cap = cv2.VideoCapture(0) # open default webcam
+            self.running = True # mark webcam feed as active
+            self.update_video() # update the frames
 
-            # label inside the new window to hold frames
-            self.video_label = tk.Label(self.video_window)
-            self.video_label.pack(padx=10, pady=10)
-            # start webcam stream
-            self.cap = cv2.VideoCapture(0)
-            self.running = True
-            self.update_video()
-
+    # method to end webcam feed
     def stop_video_stream(self):
-        # stop webcam stream
-        self.running = False
+        self.running = False # ends the update loop
         if self.cap:
-            self.cap.release()
-            self.cap = None
-        if hasattr(self, "video_window") and self.video_window.winfo_exists():
-            self.video_window.destroy()
+            self.cap.release() # release the webcam
+            self.cap = None #resets the capture object
+        self.image_label.config(image='') # clear the display area
 
+    # method to update webcam feed
     def update_video(self):
-        # updates the frames for real-time camera feed
         if self.running and self.cap:
-            ret, frame = self.cap.read()
+            ret, frame = self.cap.read() # reads frame from the webcam
             if ret:
-                rgb_frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
-                img = Image.fromarray(rgb_frame).resize((625, 625))
-                imgtk = ImageTk.PhotoImage(image=img)
-                # updates with new frame
-                self.video_label.imgtk = imgtk
-                self.video_label.configure(image=imgtk)
+                rgb_frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB) # converts BGR to RGB
+                img = Image.fromarray(rgb_frame).resize((625, 625)) # comverts to PIL image and resize
+                imgtk = ImageTk.PhotoImage(image=img) # converts to Tkinter-compatible format
+                self.image_label.imgtk = imgtk # this prevents garbage collection
+                self.image_label.configure(image=imgtk) # display the image
+            self.root.after(50, self.update_video) # schedules a new frame every 50 ms
 
-            self.video_window.after(50, self.update_video)  # sets time between frames to be every 50 ms
-
+    # method to quit app
     def quit_app(self):
-        self.stop_video_stream()  # video stream if it's onw
-        self.root.quit()  # exit gui
+        self.stop_video_stream() # stop video stream if it's on
+        self.root.quit() # exit gui
 
+    # method to reset the layout to the default state (live detection)
     def go_back(self):
-        # closes any pop-up windows and resets todefault state
-        self.stop_video_stream()
-        self.image_label.config(image='')
-        if hasattr(self, "image_window") and self.image_window.winfo_exists():
-            self.image_window.destroy()
+        self.stop_video_stream() # stops any active video stream
+        self.image_label.config(image='') # clear image
+        self.image_label.imgtk = None # remove reference to the mage object
+        self.original_img = None # reset to uploaded image state
+        self.resize_display(600, 600) # return to default display size
+        self.centre_window(900, 600) # re-centre the window
+        self.start_video_stream()  # restarts lives detection
+
+    # method to capture a single frame from the webcam feed and display it
+    def capture_frame(self):
+        if self.cap and self.running:
+            ret, frame = self.cap.read() # captures a single frame from the webcam livestream
+            if ret:
+                self.stop_video_stream() # stops live feed to freeze the frame
+                rgb_frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB) # converts BGR to RGB
+                img = Image.fromarray(rgb_frame) # comverts to PIL image and resize
+                imgtk = ImageTk.PhotoImage(img) # converts to Tkinter-compatible format
+                self.image_label.imgtk = imgtk
+                self.image_label.configure(image=imgtk) # displays image
+                self.resize_display(imgtk.width(), imgtk.height())
+
+    #method to resize the main window to accomodate for different image size
+    def resize_display(self, width, height):
+        self.left_frame.pack_propagate(False) # to prevent the frame from shrinking to fit the image
+        self.left_frame.config(width=width, height=height)
+        self.image_label.config(width=width, height=height)
+        total_width = width + 300 # to add the width of the right section
+        total_height = max(height, 600)
+        self.centre_window(total_width, total_height) # re-centre the window after resizing
+
+    # method to centre the main window
+    def centre_window(self, width, height):
+        self.root.update_idletasks()  # to check if layout calculations are up to date
+        screen_width = self.root.winfo_screenwidth()
+        screen_height = self.root.winfo_screenheight()
+        x = (screen_width // 2) - (width // 2) # for the horizontal centre
+        y = (screen_height // 2) - (height // 2) # for the vertical centre
+        self.root.geometry(f"{width}x{height}+{x}+{y}") #appliesnew size and position
