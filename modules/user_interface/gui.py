@@ -25,7 +25,6 @@ class GUI:
         self.left_frame.pack(side="left", anchor="n")
         self.image_label = tk.Label(self.left_frame)
         self.image_label.pack()
-        self.original_img = None
 
         # right section: button panel
         right_frame = tk.Frame(main_frame, width=300)
@@ -131,8 +130,7 @@ class GUI:
     def go_back(self):
         self.stop_video_stream() # stops any active video stream
         self.image_label.config(image='') # clear image
-        self.image_label.imgtk = None # remove reference to the mage object
-        self.original_img = None # reset to uploaded image state
+        self.image_label.imgtk = None # remove reference to the mage object]
         self.resize_display(600, 600) # return to default display size
         self.centre_window(900, 600) # re-centre the window
         self.start_video_stream()  # restarts lives detection
