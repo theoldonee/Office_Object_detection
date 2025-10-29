@@ -1,3 +1,4 @@
+from time import sleep
 import tkinter as tk
 from tkinter import filedialog, Label
 from PIL import Image, ImageTk
@@ -110,9 +111,13 @@ class GUI:
         if self.running and self.cap:
             ret, frame = self.cap.read() # reads frame from the webcam
             if ret:
-                rgb_frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB) # converts BGR to RGB
-                img = Image.fromarray(rgb_frame).resize((625, 625)) # comverts to PIL image and resize
-                imgtk = ImageTk.PhotoImage(image=img) # converts to Tkinter-compatible format
+                # checks if prediction should be made
+                if self.predict:
+                    imgtk = self.predict_frame(frame, True)
+                else:
+                    rgb_frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB) # converts BGR to RGB
+                    img = Image.fromarray(rgb_frame).resize((625, 625)) # comverts to PIL image and resize
+                    imgtk = ImageTk.PhotoImage(image=img) # converts to Tkinter-compatible format
                 self.image_label.imgtk = imgtk # this prevents garbage collection
                 self.image_label.configure(image=imgtk) # display the image
             self.root.after(50, self.update_video) # schedules a new frame every 50 ms
