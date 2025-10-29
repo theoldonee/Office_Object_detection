@@ -1,4 +1,5 @@
 from ultralytics import YOLO
+from collections import Counter
 
 class Detector():
     def __init__(self):
@@ -13,5 +14,11 @@ class Detector():
 
             # Visualize the result on the frame
             frame = result.plot()
-        
-        return frame
+
+            class_ids = result.boxes.cls.cpu().numpy().astype(int)
+            class_names = [result.names[int(cls)] for cls in class_ids]
+            class_counts = Counter(class_names)
+            classes = f"Detected classes: {dict(class_counts)}"
+        else:
+            classes = f"No object(s) detected"
+        return frame, classes
