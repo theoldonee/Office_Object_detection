@@ -143,9 +143,7 @@ class GUI:
             ret, frame = self.cap.read() # captures a single frame from the webcam livestream
             if ret:
                 self.stop_video_stream() # stops live feed to freeze the frame
-                rgb_frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB) # converts BGR to RGB
-                img = Image.fromarray(rgb_frame) # comverts to PIL image and resize
-                imgtk = ImageTk.PhotoImage(img) # converts to Tkinter-compatible format
+                imgtk = self.predict_frame(frame, False) # make prediction on frame
                 self.image_label.imgtk = imgtk
                 self.image_label.configure(image=imgtk) # displays image
                 self.resize_display(imgtk.width(), imgtk.height())
