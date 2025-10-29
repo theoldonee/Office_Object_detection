@@ -47,7 +47,7 @@ class GUI:
         capture_btn.config_colours(activeBG="dodgerblue4", activeFG="white",  bgcolour="dodgerblue3", fgcolour="white", hoverBG="dodgerblue2", hoverFG="white")
 
         #start live detection button
-        live_stream_btn = GUIButton(right_frame, text="Live Detection", command=self.start_video_stream, font=("Helvetica", 12))
+        live_stream_btn = GUIButton(right_frame, text="Live Detection", command=self.start_prediction, font=("Helvetica", 12))
         live_stream_btn.pack(pady=10)
         live_stream_btn.config_colours(activeBG="green4", activeFG="white",
                                        bgcolour="SpringGreen3", fgcolour="white", hoverBG="green3", hoverFG="white")
