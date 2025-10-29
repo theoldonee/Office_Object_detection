@@ -90,6 +90,7 @@ class GUI:
     #method to display the uploaded image file on the left section
     def display_image(self, path):
         self.stop_video_stream()  # to ensure the live stream is stopped
+        self.reset_live_btn() # reset live_btn
         frame = Image.open(path) # loads image from file
         imgtk = self.predict_frame(frame) # make prediction on frame
         self.image_label.imgtk = imgtk  # this prevents garbage collection
@@ -140,6 +141,7 @@ class GUI:
 
     # method to capture a single frame from the webcam feed and display it
     def capture_frame(self):
+        self.reset_live_btn() # reset live_btn
         if self.cap and self.running:
             ret, frame = self.cap.read() # captures a single frame from the webcam livestream
             if ret:
