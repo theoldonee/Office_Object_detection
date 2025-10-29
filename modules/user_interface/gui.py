@@ -51,9 +51,9 @@ class GUI:
         capture_btn.set_dimensions(height=1, width=16)
 
         #start live detection button
-        live_stream_btn = GUIButton(right_frame, text="Start Live Detection", command=self.start_prediction, font=("Helvetica", 12))
-        live_stream_btn.pack(pady=10)
-        live_stream_btn.config_colours(activeBG="green4", activeFG="white",
+        self.live_stream_btn = GUIButton(right_frame, text="Start Live Detection", command=self.start_prediction, font=("Helvetica", 12))
+        self.live_stream_btn.pack(pady=10)
+        self.live_stream_btn.config_colours(activeBG="green4", activeFG="white",
                                        bgcolour="SpringGreen3", fgcolour="white", hoverBG="green3", hoverFG="white")
 
         # back button (returns to default livestream)
