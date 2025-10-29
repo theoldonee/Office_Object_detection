@@ -135,7 +135,7 @@ class GUI:
         self.image_label.config(image='') # clear image
         self.image_label.imgtk = None # remove reference to the mage object]
         self.resize_display(600, 600) # return to default display size
-        self.centre_window(900, 600) # re-centre the window
+        self.centre_window(900, 700) # re-centre the window
         self.start_video_stream()  # restarts lives detection
 
     # method to capture a single frame from the webcam feed and display it
