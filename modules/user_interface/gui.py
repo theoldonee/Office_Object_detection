@@ -136,7 +136,6 @@ class GUI:
         self.stop_video_stream() # stops any active video stream
         self.image_label.config(image='') # clear image
         self.image_label.imgtk = None # remove reference to the mage object
-        self.centre_window(self.window_width, self.window_height) # re-centre the window
         self.start_video_stream()  # restarts lives detection
 
     # method to capture a single frame from the webcam feed and display it
@@ -148,15 +147,6 @@ class GUI:
                 imgtk = self.predict_frame(frame) # make prediction on frame
                 self.image_label.imgtk = imgtk
                 self.image_label.configure(image=imgtk) # displays image
-
-    # method to centre the main window
-    def centre_window(self, width, height):
-        self.root.update_idletasks()  # to check if layout calculations are up to date
-        screen_width = self.root.winfo_screenwidth()
-        screen_height = self.root.winfo_screenheight()
-        x = (screen_width // 2) - (width // 2) # for the horizontal centre
-        y = (screen_height // 2) - (height // 2) # for the vertical centre
-        self.root.geometry(f"{width}x{height}+{x}+{y}") #appliesnew size and position
 
     # returns image with prediction
     def predict_frame(self, frame):
