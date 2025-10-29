@@ -85,8 +85,8 @@ class GUI:
     #method to display the uploaded image file on the left section
     def display_image(self, path):
         self.stop_video_stream()  # to ensure the live stream is stopped
-        self.original_img = Image.open(path) # loads image from file
-        imgtk = ImageTk.PhotoImage(self.original_img) # converts to Tkinter-compatible format
+        frame = Image.open(path) # loads image from file
+        imgtk = self.predict_frame(frame, True)
         self.image_label.imgtk = imgtk  # this prevents garbage collection
         self.image_label.configure(image=imgtk) # displays image in label
         self.resize_display(imgtk.width(), imgtk.height()) # rezises and centres window
