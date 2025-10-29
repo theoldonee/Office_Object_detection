@@ -162,12 +162,16 @@ class GUI:
     def start_prediction(self):
         # check if predict is true and video frames are being captured
         if self.predict and self.running:
-            self.predict = False
-            self.live_stream_btn.config_colours(activeBG="green4", activeFG="white",
-                                       bgcolour="SpringGreen3", fgcolour="white", hoverBG="green3", hoverFG="white")
-            self.live_stream_btn.config_text("Start Live Detection")
+            self.reset_live_btn()
         elif self.predict == False and self.running :
             self.predict = True
             self.live_stream_btn.config_colours(activeBG="firebrick4", activeFG="white", bgcolour="firebrick3",
                                 fgcolour="white", hoverBG="red", hoverFG="white")
             self.live_stream_btn.config_text("Stop Live Detection")
+
+    # reset live button
+    def reset_live_btn(self):
+        self.predict = False
+        self.live_stream_btn.config_colours(activeBG="green4", activeFG="white",
+                                    bgcolour="SpringGreen3", fgcolour="white", hoverBG="green3", hoverFG="white")
+        self.live_stream_btn.config_text("Start Live Detection")
