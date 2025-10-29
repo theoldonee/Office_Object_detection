@@ -163,15 +163,21 @@ class GUI:
         y = (screen_height // 2) - (height // 2) # for the vertical centre
         self.root.geometry(f"{width}x{height}+{x}+{y}") #appliesnew size and position
 
+    # returns image with prediction
     def predict_frame(self, frame, resize):
-        img = self.detector.predict(frame)
-        img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
+        img = self.detector.predict(frame) # make prediction on frame
+        img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB) # convert image from BGR to RGB
+
+        # checks if image should be resized
         if resize:
             img = Image.fromarray(img).resize((625, 625))
         else:
             img = Image.fromarray(img)
+
+        # converts image to ImageTK object
         imgtk = ImageTk.PhotoImage(img)
         return imgtk
 
+    # changes state of predict variable
     def start_prediction(self):
         self.predict = True
