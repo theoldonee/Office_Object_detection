@@ -11,7 +11,7 @@ class GUI:
         # initialising main window
         self.root = root
         self.root.title("Office Object Detection") # title
-        self.root.geometry("900x700+400+150") # set size and location
+        self.root.geometry("1000x700+400+150") # set size and location
         self.detector = Detector()
         self.predict = False
 
@@ -21,18 +21,18 @@ class GUI:
         main_frame.pack(fill="both", expand=True)
 
         # left section: for image/webcam display
-        self.left_frame = tk.Frame(main_frame, width=625, height=625)
-        self.left_frame.pack(side="left", anchor="n")
+        self.left_frame = tk.Frame(main_frame, width=625, height=700, borderwidth=2, relief="solid")
+        self.left_frame.pack(side="left", anchor="n", fill="y")
         self.image_label = tk.Label(self.left_frame)
         self.image_label.pack()
 
         # right section: button panel
-        right_frame = tk.Frame(main_frame, width=300)
-        right_frame.pack(side="right", fill="y")
+        right_frame = tk.Frame(main_frame, width=375)
+        right_frame.pack(fill="both")
 
         #header label
         header = Label(right_frame, text="Office Object Detection", fg="black", font=("Helvetica", 15))
-        header.pack(pady=(10, 10))
+        header.pack(pady=5)
 
         # upload image button
         upload_img_btn = GUIButton(right_frame, text="Upload Image", command=self.upload_image, font=("Helvetica", 12))
