@@ -138,6 +138,7 @@ class GUI:
     def go_back(self):
         self.stop_video_stream() # stops any active video stream
         self.image_label.config(image='') # clear image
+        self.detected_class_label.config(text="") # clear detected class label
         self.image_label.imgtk = None # remove reference to the mage object
         self.start_video_stream()  # restarts lives detection
 
