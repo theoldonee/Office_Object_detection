@@ -94,7 +94,7 @@ class GUI:
         self.stop_video_stream()  # to ensure the live stream is stopped
         self.reset_live_btn() # reset live_btn
         frame = Image.open(path) # loads image from file
-        imgtk = self.predict_frame(frame) # make prediction on frame
+        imgtk = self.predict_frame(frame, True) # make prediction on frame
         self.image_label.imgtk = imgtk  # this prevents garbage collection
         self.image_label.configure(image=imgtk) # displays image in label
 
@@ -120,7 +120,7 @@ class GUI:
             if ret:
                 # checks if prediction should be made
                 if self.predict:
-                    imgtk = self.predict_frame(frame)
+                    imgtk = self.predict_frame(frame, False)
                 else:
                     rgb_frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB) # converts BGR to RGB
                     img = Image.fromarray(rgb_frame).resize((625, 625)) # comverts to PIL image and resize
@@ -148,7 +148,7 @@ class GUI:
             ret, frame = self.cap.read() # captures a single frame from the webcam livestream
             if ret:
                 self.stop_video_stream() # stops live feed to freeze the frame
-                imgtk = self.predict_frame(frame) # make prediction on frame
+                imgtk = self.predict_frame(frame, True) # make prediction on frame
                 self.image_label.imgtk = imgtk
                 self.image_label.configure(image=imgtk) # displays image
 
