@@ -153,11 +153,13 @@ class GUI:
                 self.image_label.configure(image=imgtk) # displays image
 
     # returns image with prediction
-    def predict_frame(self, frame):
-        img = self.detector.predict(frame) # make prediction on frame
+    def predict_frame(self, frame, show_classes):
+        img, classes = self.detector.predict(frame) # make prediction on frame
         img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB) # convert image from BGR to RGB
         img = Image.fromarray(img).resize((625, 625)) # resize image to window size
-      
+
+        if show_classes:
+            self.detected_class_label.config(text=classes)
         # converts image to ImageTK object
         imgtk = ImageTk.PhotoImage(img)
         return imgtk
