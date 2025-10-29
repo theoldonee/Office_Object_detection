@@ -39,11 +39,13 @@ class GUI:
         upload_img_btn.pack(pady=10)
         upload_img_btn.config_colours(activeBG="green4", activeFG="white", bgcolour="SpringGreen3",
                                       fgcolour="white", hoverBG="green3", hoverFG="white")
+        upload_img_btn.set_dimensions(height=1, width=16)
 
         #capture frame button
         capture_btn = GUIButton(right_frame, text="Capture", command=self.capture_frame, font=("Helvetica", 12))
         capture_btn.pack(pady=10)
         capture_btn.config_colours(activeBG="dodgerblue4", activeFG="white",  bgcolour="dodgerblue3", fgcolour="white", hoverBG="dodgerblue2", hoverFG="white")
+        capture_btn.set_dimensions(height=1, width=16)
 
         #start live detection button
         live_stream_btn = GUIButton(right_frame, text="Start Live Detection", command=self.start_prediction, font=("Helvetica", 12))
@@ -56,6 +58,7 @@ class GUI:
         back_btn.pack(pady=10)
         back_btn.config_colours(activeBG="gray30", activeFG="white", bgcolour="gray60",
                                 fgcolour="white",hoverBG="gray40", hoverFG="white")
+        back_btn.set_dimensions(height=1, width=16)
 
         #quit button (ends program)
         quit_btn = GUIButton(right_frame, text="Quit",command=self.quit_app,  font=("Helvetica", 12))
@@ -63,7 +66,7 @@ class GUI:
         quit_btn.config_colours(activeBG="firebrick4", activeFG="white", bgcolour="firebrick3",
                                 fgcolour="white", hoverBG="red", hoverFG="white")
 
-        quit_btn.set_dimensions(height=2, width=8)
+        quit_btn.set_dimensions(height=1, width=16)
 
         # cv2 webcam state
         self.cap = None
