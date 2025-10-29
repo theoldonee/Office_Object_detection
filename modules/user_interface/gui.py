@@ -25,6 +25,7 @@ class GUI:
         # left section: for image/webcam display
         self.left_frame = tk.Frame(main_frame, width=625, height=700, borderwidth=2, relief="solid")
         self.left_frame.pack(side="left", anchor="n", fill="y")
+        self.left_frame.pack_propagate(False) # prevent frame from shrinking to fit contents
         self.image_label = tk.Label(self.left_frame)
         self.image_label.pack()
 
