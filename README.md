@@ -19,7 +19,19 @@ Simply press the play button while on the main.py file or in the terminal, run:
 ```bash
 python main.py
 ```
-# Runs and output
+# Functionalities, Runs and Outputs
+The following are the variety of actions that can be performed once the program is ran.
+## Functionalities
+### Reset GUI
+Pressing the back button retuns the gui to its default state.
+### Image Upload
+Pressing the "Upload Image" button gives the user the option to upload an image file and have a prediction made on the image.
+### Live Capture
+Pressing the "Capture" button captures the current video frame and performs a prediction on it.
+### Live Detection
+Pressing the "Start Live Detection" button gives the user the option to make prediction on the live feed.
+### Quit
+On pressing the "Quit" button, the program is terminated.
 # Trouble Shooting
 ## Problem When Installing Requirements.
 ### Possible Solutions
