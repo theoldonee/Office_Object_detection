@@ -1,5 +1,5 @@
 # Office_Object_detection
-A model that detects and identifies office objects
+A model that detects and identifies office objects.
 # Installation Guide
 ## What You Need
 * [Visual studio code](https://code.visualstudio.com/) or [Pycharm](https://www.jetbrains.com/pycharm/download/)
@@ -38,11 +38,15 @@ Pressing the "Start Live Detection" button gives the user the option to make pre
 ### Quit
 On pressing the "Quit" button, the program is terminated.
 # Trouble Shooting
-## Problem When Installing Requirements.
+## Problem When Installing Requirements
 ### Possible Solutions
-* Update your python to the 3.13.3 and rerun the pip install
-* If the first point fails, you would have to manually install the following libraries
+* Update your python to the 3.13.3 and rerun the pip install.
+* If the first point fails, you would have to manually install the following libraries:
     * opencv-python
     * ultralytics
     * pillow
     * Install "[torch v12.9](https://pytorch.org/)" if you would like to train the model on a custom dataset.
+## GUI Lag
+### Possible Solutions
+* Press the "Reset" button
+* Quit program and restart
