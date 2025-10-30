@@ -19,11 +19,16 @@ Simply press the play button while on the main.py file or in the terminal, run:
 ```bash
 python main.py
 ```
+# Classes
+Th current model is trained on the following classes.
+
+<img width="473" height="271" alt="image" src="https://github.com/user-attachments/assets/ed3015f3-b2e0-47ab-bcdf-9f4b415946fe" />
+
 # Functionalities, Runs and Outputs
 The following are the variety of actions that can be performed once the program is ran.
 ## Functionalities
 ### Reset GUI
-Pressing the back button retuns the gui to its default state.
+Pressing the "back" button retuns the gui to its default state.
 ### Image Upload
 Pressing the "Upload Image" button gives the user the option to upload an image file and have a prediction made on the image.
 ### Live Capture
