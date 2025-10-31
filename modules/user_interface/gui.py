@@ -28,7 +28,7 @@ class GUI:
         self.left_frame.pack_propagate(False) # prevent frame from shrinking to fit contents
         self.image_label = tk.Label(self.left_frame)
         self.image_label.pack()
-        self.detected_class_label = Label(self.left_frame, text="", fg="black", font=("Helvetica", 15))
+        self.detected_class_label = Label(self.left_frame, text="", fg="black", font=("Helvetica", 10))
         self.detected_class_label.pack(pady=10)
 
         # right section: button panel
