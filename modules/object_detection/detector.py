@@ -19,6 +19,8 @@ class Detector():
             class_names = [result.names[int(cls)] for cls in class_ids]
             class_counts = Counter(class_names)
             classes = f"Detected classes: {dict(class_counts)}"
+            classes = classes.replace("{", "")
+            classes = classes.replace("}", "")
         else:
-            classes = f"No object(s) detected"
+            classes = f"No object(s) detected."
         return frame, classes
