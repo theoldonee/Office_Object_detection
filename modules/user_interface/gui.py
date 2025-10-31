@@ -59,11 +59,11 @@ class GUI:
                                        bgcolour="SpringGreen3", fgcolour="white", hoverBG="green3", hoverFG="white")
 
         # back button (returns to default livestream)
-        back_btn = GUIButton(right_frame, text="Back",command=self.go_back,font =("Helvetica", 12))
-        back_btn.pack(pady=10)
-        back_btn.config_colours(activeBG="gray30", activeFG="white", bgcolour="gray60",
+        reset_btn = GUIButton(right_frame, text="Reset",command=self.go_back,font =("Helvetica", 12))
+        reset_btn.pack(pady=10)
+        reset_btn.config_colours(activeBG="gray30", activeFG="white", bgcolour="gray60",
                                 fgcolour="white",hoverBG="gray40", hoverFG="white")
-        back_btn.set_dimensions(height=1, width=16)
+        reset_btn.set_dimensions(height=1, width=16)
 
         #quit button (ends program)
         quit_btn = GUIButton(right_frame, text="Quit",command=self.quit_app,  font=("Helvetica", 12))
