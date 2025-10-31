@@ -59,7 +59,7 @@ class GUI:
                                        bgcolour="SpringGreen3", fgcolour="white", hoverBG="green3", hoverFG="white")
 
         # back button (returns to default livestream)
-        reset_btn = GUIButton(right_frame, text="Reset",command=self.go_back,font =("Helvetica", 12))
+        reset_btn = GUIButton(right_frame, text="Reset",command=self.reset,font =("Helvetica", 12))
         reset_btn.pack(pady=10)
         reset_btn.config_colours(activeBG="gray30", activeFG="white", bgcolour="gray60",
                                 fgcolour="white",hoverBG="gray40", hoverFG="white")
@@ -136,7 +136,7 @@ class GUI:
         self.root.quit() # exit gui
 
     # method to reset the layout to the default state (live detection)
-    def go_back(self):
+    def reset(self):
         self.stop_video_stream() # stops any active video stream
         self.image_label.config(image='') # clear image
         self.detected_class_label.config(text="") # clear detected class label
