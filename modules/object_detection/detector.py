@@ -15,6 +15,7 @@ class Detector():
             # Visualize the result on the frame
             frame = result.plot()
 
+            # get detected classes
             class_ids = result.boxes.cls.cpu().numpy().astype(int)
             class_names = [result.names[int(cls)] for cls in class_ids]
             class_counts = Counter(class_names)
