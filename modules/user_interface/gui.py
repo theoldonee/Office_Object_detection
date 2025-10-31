@@ -137,6 +137,7 @@ class GUI:
 
     # method to reset the layout to the default state (live detection)
     def reset(self):
+        self.reset_live_btn()
         self.stop_video_stream() # stops any active video stream
         self.image_label.config(image='') # clear image
         self.detected_class_label.config(text="") # clear detected class label
