@@ -82,12 +82,16 @@ class GUI:
 
     # method to upload an image file
     def upload_image(self):
+        self.detected_class_label.config(text="") # clear detected class label
         # Stop webcam if it is running
         self.stop_video_stream()
         # open file dialogue
         filename = filedialog.askopenfilename(filetypes=[("Image Files", "*.png *.jpg *.jpeg")])
         if filename:
             self.display_image(filename) # display selected image
+        else:
+            self.detected_class_label.config(text="") # clear detected class label
+            self.start_video_stream() # start video stream
 
     #method to display the uploaded image file on the left section
     def display_image(self, path):
