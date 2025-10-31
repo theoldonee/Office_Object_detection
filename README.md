@@ -28,6 +28,8 @@ Th current model is trained on the following classes.
 The dataset can be found here: [Link](https://drive.google.com/drive/folders/1CX8gsDy5pCsaMLUwGQ7otMHhz49GK4-L?usp=drive_link)
 
 # Functionalities, Runs and Outputs
+<img width="1505" height="1099" alt="image" src="https://github.com/user-attachments/assets/370df537-1b5d-4acc-87c0-ead98f607e11" />
+
 The following are the variety of actions that can be performed once the program is ran.
 ## Functionalities
 ### Reset GUI
