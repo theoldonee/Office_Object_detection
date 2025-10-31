@@ -1,0 +1,30 @@
+dataset_name: "Open Images Dataset V7"
+version: "7"
+publisher: "Google Research"
+homepage: "https://storage.googleapis.com/openimages/web/index.html"
+license: "CC BY 4.0"
+citation: |
+  Kuznetsova, A., Rom, H., Alldrin, N., Uijlings, J., Krasin, I., Pont-Tuset, J., Kamali, S., Popov, S., Malloci, M., Kolesnikov, A., Duerig, T., & Ferrari, V. (2020).
+  The Open Images Dataset V6: Unified image classification, object detection, and visual relationship detection at scale.
+  International Journal of Computer Vision.
+tasks:
+  - image-classification
+  - object-detection
+  - instance-segmentation
+  - visual-relationship-detection
+data_splits:
+  classes: 601
+  splits: train, test, validation
+features:
+  - image_id, image_url, labels, boundingbox, segmentation_mask, relationship_triplets
+intended_uses:
+  - Object detection 
+  - Image segmentation
+  - Image classification
+limitations:
+  - Dataset exhibits label imbalance; some categories are underrepresented.
+  - Bounding box annotations can overlap or be ambiguous.
+  - Not all objects in an image are annotated.
+sources:
+  - "https://storage.googleapis.com/openimages/web/index.html"
+  - "https://github.com/cvdfoundation/open-images-dataset"
